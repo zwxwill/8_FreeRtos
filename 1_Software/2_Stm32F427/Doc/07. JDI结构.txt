@@ -1,0 +1,7 @@
+
+
+
+1  接口：
+	文件：FreeRTOS
+		PLC 任务优先级 在 plc_sys.h中定义：#define PLC_LOWEST_PRIORITY     0
+										   #define PLC_HIGHEST_PRIORITY    20

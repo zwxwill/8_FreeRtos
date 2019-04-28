@@ -1,0 +1,2 @@
+1 晶振 8M 需要修改stm32f4xx.h 中 HSE_VALUE 
+2 LWIP_USE_INTERN_RAM 用于选择是否使用内部ram做lwip

@@ -1,0 +1,19 @@
+---- mqtt_client_connect Matches (18 in 4 files) ----
+mqtt.c (Libraries\LWIP\apps\mqtt) line 1339 : mqtt_client_connect(mqtt_client_t *client, const ip_addr_t *ip_addr, u16_t port, mqtt_connection_cb_t cb, void *arg,
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ASSERT("mqtt_client_connect: client != NULL", client != NULL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ASSERT("mqtt_client_connect: ip_addr != NULL", ip_addr != NULL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ASSERT("mqtt_client_connect: client_info != NULL", client_info != NULL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ASSERT("mqtt_client_connect: client_info->client_id != NULL", client_info->client_id != NULL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_DEBUGF(MQTT_DEBUG_WARN,("mqtt_client_connect: Already connected\n"));
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_ERROR("mqtt_client_connect: client_info->will_topic length overflow", len <= 0xFF, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_ERROR("mqtt_client_connect: client_info->will_topic length must be > 0", len > 0, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_ERROR("mqtt_client_connect: client_info->will_msg length overflow", len <= 0xFF, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_ERROR("mqtt_client_connect: remaining_length overflow", len <= 0xFFFF, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ERROR("mqtt_client_connect: client_info->client_id length overflow", len <= 0xFFFF, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_ERROR("mqtt_client_connect: remaining_length overflow", len <= 0xFFFF, return ERR_VAL);
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_DEBUGF(MQTT_DEBUG_WARN,("mqtt_client_connect: Error binding to local ip/port, %d\n", err));
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :     LWIP_DEBUGF(MQTT_DEBUG_TRACE,("mqtt_client_connect: Connecting to host: %s at port:%"U16_F"\n", ipaddr_ntoa(ip_addr), port));
+mqtt_client_connect in mqtt.c (Libraries\LWIP\apps\mqtt) :         LWIP_DEBUGF(MQTT_DEBUG_TRACE,("mqtt_client_connect: Error connecting to remote ip/port, %d\n", err));
+mqtt.h (Libraries\LWIP\apps\mqtt) line 212 : err_t mqtt_client_connect(mqtt_client_t *client, const ip_addr_t *ipaddr, u16_t port, mqtt_connection_cb_t cb, void *arg,
+mqtt_client.txt (Libraries\LWIP\apps\mqtt) line 41 :   err = mqtt_client_connect(client, ip_addr, MQTT_PORT, mqtt_connection_cb, 0, &ci);
+mqtt_example_init in test_mqtt.c (User\test\src) :     mqtt_client_connect(mqtt_client,

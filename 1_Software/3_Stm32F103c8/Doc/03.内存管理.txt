@@ -1,0 +1,51 @@
+[0] STM32F407ZGT6  192kbyte SRAM ( 128kbyte RAM + 64kbyte CCM )
+			 start         size
+	IRAM1 :  0x20000000    0x20000(128kbyte)
+	IRAM2 :  0x10000000    0x10000(64kbyte)
+	
+	其中IRAM2 属于CCM，除了CPU核外，谁都无法访问，例如DMA控制器无法访问CCM.
+	因此,采用自定义scatter文件，option->linker->scatter file
+	在需要放入CCM的函数或者变量上面加上__attribute__声明
+	例如：int temp __attribute__((section("ccm"))) = 0;
+		__attribute__((section("ccm")))
+		void test(void)
+		{
+		}	
+	0: FreeRtos heap_4 管理分配30k内存 用于创建信号量/队列/任务堆栈
+	1：FreeRtos heap_6 管理分配10k内部内存  500k外部内存  30kCCM内存
+	2：LWIP:  大概 15k
+		ETH_DMADESCTypeDef  DMARxDscrTab[ETH_RXBUFNB];/* Ethernet Rx MA Descriptor */
+		ETH_DMADESCTypeDef  DMATxDscrTab[ETH_TXBUFNB];/* Ethernet Tx DMA Descriptor */
+		uint8_t Rx_Buff[ETH_RXBUFNB][ETH_RX_BUF_SIZE]; /* Ethernet Receive Buffer */
+		uint8_t Tx_Buff[ETH_TXBUFNB][ETH_TX_BUF_SIZE]; /* Ethernet Transmit Buffer */	
+		
+		memp_memory 和 ram_heap的空间可通过 memp_get_memorysize() 和 memp_get_ramheapsize() 获取，大概 50k 大小
+		
+		lwip 采用两种内存管理机制：动态内存堆管理heap(mem.c)， 动态内存池管理 pool(memp.c)
+		动态内存堆管理包括：C语言自带的内存分配策略 和 LWIP自己实现的内存对策略。 #define MEM_LIBC_MALLOC   0 ：表示使用LWIP自己实现的内存对策略
+		
+	
+
+[1] SPI FALSH 存储列表  W25Q128FVSIG 共16MByte
+	0 sector  : T_Drac200mCommCfg ：通信配置文件
+	1 sector  : T_Drac200mCommCfg ：通信配置文件
+	2 sector  : T_Drac200mFmCfg   : 固件文件
+	3 sector  ：T_Drac200mFmCfg   : 固件文件
+	19 sector - 50(共占用32个sector) : SELF工程文件
+	51 sector - 83(共占用32个sector) : SELF工程文件
+	
+[2] 外部SRAM  IS62WV51216BLL-55TLI  1 MByte  起始地址0x68000000
+	外部SRAM申请了128k的空间 包括: struct PlcJDIRT + struct PlcEnv + 
+	0x68080000--0x680A0000 共128K;  存放工程文件
+	
+	
+	
+错误管理
+	1 
+	
+	
+	
+	
+	
+	
+	DoTask
