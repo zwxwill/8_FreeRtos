@@ -80,7 +80,7 @@ static void bsp_UartConfig(USART_TypeDef * USARTx, char baud, char parity)
     }
 
     /*Enable transmission complete interrupt*/
-    USART_ITConfig(USARTx, USART_IT_TC, ENABLE);
+//    USART_ITConfig(USARTx, USART_IT_TC, ENABLE);
 	
 	USART_Cmd(USARTx, ENABLE);
 }
@@ -299,6 +299,60 @@ void Usart4_IrqHandler(void)
 {
     USART_ClearFlag(UART5, USART_FLAG_TC);
     COM3_UART4_485_MODE = RS485_RX_MODE;  /* 发生完成后变成接收模式 */
+}
+
+/**
+  * @brief
+  * @param  None
+  * @retval None
+  */
+static void DMAConfig(DMA_Stream_TypeDef *  DMAy_Streamx,
+                      uint32_t  DMA_BufferSize,
+                      uint32_t  DMA_DIR,
+                      uint32_t  DMA_Memory0BaseAddr,
+                      uint32_t  Mode,
+                      uint32_t  DMA_PeripheralBaseAddr,
+                      uint32_t  DMA_Priority)
+{
+    DMA_InitTypeDef  DMA_InitStructure;
+    /*Enable the clock of DMA*/
+    if((uint32_t)DMAy_Streamx<(uint32_t)DMA2)//Determin the current stream belongs to DMA1 or DMA2
+    {
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);    //Enable the clock of DMA1
+    }
+    else
+    {
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);    //Enable the clock of DMA2
+    }
+    DMA_DeInit(DMAy_Streamx);
+
+    /*Waiting for the EN bit in DMA_SxCR become reset*/
+    DMA_Cmd(DMAy_Streamx, DISABLE);
+    while(DMA_GetCmdStatus(DMAy_Streamx) != DISABLE) {}
+
+    /*Configure DMA stream*/
+    DMA_InitStructure.DMA_BufferSize = DMA_BufferSize;//need to be configured
+    DMA_InitStructure.DMA_Channel = DMA_Channel_4;
+    DMA_InitStructure.DMA_DIR = DMA_DIR;//need to be configured
+    DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;//changed
+    DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    DMA_InitStructure.DMA_Memory0BaseAddr = DMA_Memory0BaseAddr;//need to be configured
+    DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    DMA_InitStructure.DMA_Mode = Mode;//need to be configured
+    DMA_InitStructure.DMA_PeripheralBaseAddr = DMA_PeripheralBaseAddr;//need to be configured
+    DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    DMA_InitStructure.DMA_Priority = DMA_Priority;//need to be configured
+    DMA_Init(DMAy_Streamx, &DMA_InitStructure);
+
+    /*Enable DMA TCIF if the stream is used for receiving*/
+    if((DMAy_Streamx == DMA1_Stream0) || (DMAy_Streamx == DMA1_Stream1) || (DMAy_Streamx == DMA1_Stream2))//for test
+    {
+        DMA_ITConfig(DMAy_Streamx, DMA_IT_TC, ENABLE);
+    }
 }
 
 /**
