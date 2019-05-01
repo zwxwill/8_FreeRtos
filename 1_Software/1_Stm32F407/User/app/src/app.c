@@ -78,32 +78,33 @@ static void App_HardWareInit(void)
   */
 static void App_TaskCreate(void)
 {
+	/* vTaskLog prio : 1 */ 
     xTaskCreate(vTaskCheck,            /* function  */
                 "vTaskCheck",          /* name    */
                 256,                  /* stack size, unit: 4 byte */
                 NULL,                  /* task param */
-                1,                     /* priority */
+                2,                     /* priority */
                 &xHandleTaskCheck);    /* handle  */
 
     xTaskCreate(vTaskDebug,             /* function  */
                 "vTaskDebug",           /* name    */
                 128,                  /* stack size, unit: 4 byte */
                 NULL,                  /* task param */
-                2,                     /* priority */
+                3,                     /* priority */
                 &xHandleTaskDebug);     /* handle  */
 	
     xTaskCreate(vTaskLED,              /* function  */
                 "vTaskLED",            /* name    */
                 128,                  /* stack size, unit: 4 byte */
                 NULL,                  /* task param */
-                3,                     /* priority */
+                4,                     /* priority */
                 &xHandleTaskLED);      /* handle  */
 
     xTaskCreate(vTaskTCPIP,            /* function  */
                 "vTaskTCPIP",          /* name    */
                 128,                  /* stack size, unit: 4 byte */
                 NULL,                  /* task param */
-                4,                     /* priority */
+                5,                     /* priority */
                 &xHandleTaskTCPIP);    /* handle  */
 
     /* JDI 队列接收使用了优先级5 */

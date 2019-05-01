@@ -27,7 +27,7 @@
 #define SECTOR_SIZE                     (16 * PAGE_SIZE) //4K byte
 #define BLOCK_SIZE                      (16 * SECTOR_SIZE) //64K byte
 #define BLOCK_NUM                       256
-#define SECTOR_NUM                      (16 * BLOCK_NUM)//one block contains 16 sectors
+#define SPI_SECTOR_NUM                  (16 * BLOCK_NUM)//one block contains 16 sectors
 
 
 /*

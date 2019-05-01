@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx,USE_OS_FREERTOS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\FreeRtos\include;..\..\FreeRtos\portable\RVDS\ARM_CM4F;..\..\Libraries\STM32F4x7_ETH_Driver\inc;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\User;..\..\User\app\inc;..\..\User\bsp\inc;..\..\User\srv\inc;..\..\Libraries\LWIP\lwip-1.4.1\src\include;..\..\Libraries\LWIP\lwip-1.4.1\src\include\lwip;..\..\Libraries\LWIP\lwip-1.4.1\src\include\netif;..\..\Libraries\LWIP\lwip-1.4.1\src\include\ipv4;..\..\Libraries\LWIP\port\STM32F4x7;..\..\Libraries\LWIP\port\STM32F4x7\FreeRTOS;..\..\Libraries\LWIP\lwip-1.4.1\src\apps;..\..\Libraries\freemodbus\modbus\ascii;..\..\Libraries\freemodbus\modbus\include;..\..\Libraries\freemodbus\modbus\rtu;..\..\Libraries\freemodbus\modbus\tcp;..\..\Libraries\freemodbus\port;..\..\User\conf;..\..\User\test\inc;..\..\Libraries\paho.mqtt.embedded-c\MQTTPacket\src;..\..\Libraries\paho.mqtt.embedded-c\MQTTClient-FreeRtos</IncludePath>
+              <IncludePath>..\..\FreeRtos\include;..\..\FreeRtos\portable\RVDS\ARM_CM4F;..\..\Libraries\STM32F4x7_ETH_Driver\inc;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\User;..\..\User\app\inc;..\..\User\bsp\inc;..\..\User\srv\inc;..\..\Libraries\LWIP\lwip-1.4.1\src\include;..\..\Libraries\LWIP\lwip-1.4.1\src\include\lwip;..\..\Libraries\LWIP\lwip-1.4.1\src\include\netif;..\..\Libraries\LWIP\lwip-1.4.1\src\include\ipv4;..\..\Libraries\LWIP\port\STM32F4x7;..\..\Libraries\LWIP\port\STM32F4x7\FreeRTOS;..\..\Libraries\LWIP\lwip-1.4.1\src\apps;..\..\Libraries\freemodbus\modbus\ascii;..\..\Libraries\freemodbus\modbus\include;..\..\Libraries\freemodbus\modbus\rtu;..\..\Libraries\freemodbus\modbus\tcp;..\..\Libraries\freemodbus\port;..\..\User\conf;..\..\User\test\inc;..\..\Libraries\paho.mqtt.embedded-c\MQTTPacket\src;..\..\Libraries\paho.mqtt.embedded-c\MQTTClient-FreeRtos;..\..\Libraries\EasyFlash-V4.0\easyflash\inc;..\..\Libraries\EasyLogger\easylogger\inc;..\..\Libraries\EasyLogger\easylogger\plugins\flash</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1227,6 +1227,91 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>EasyFlash</GroupName>
+          <Files>
+            <File>
+              <FileName>ef_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\inc\ef_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>easyflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\src\easyflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\src\ef_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\port\ef_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_log.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\src\ef_log.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_env.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyFlash-V4.0\easyflash\src\ef_env.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>EasyLogger</GroupName>
+          <Files>
+            <File>
+              <FileName>elog_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\inc\elog_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>elog_flash_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\plugins\flash\elog_flash_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>elog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\src\elog.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\src\elog_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_async.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\src\elog_async.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_buf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\src\elog_buf.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\port\elog_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\plugins\flash\elog_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_flash_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\EasyLogger\easylogger\plugins\flash\elog_flash_port.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Test</GroupName>
           <Files>
             <File>
@@ -1273,6 +1358,21 @@
               <FileName>test_paho-mqtt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\test\src\test_paho-mqtt.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_elog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\test\src\test_elog.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_eflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\test\src\test_eflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_rawtcpclient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\test\src\test_rawtcpclient.c</FilePath>
             </File>
           </Files>
         </Group>

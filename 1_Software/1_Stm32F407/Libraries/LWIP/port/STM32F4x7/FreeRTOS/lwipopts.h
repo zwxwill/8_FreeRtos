@@ -154,17 +154,6 @@
 /* ---------- Statistics options ---------- */
 #define LWIP_PROVIDE_ERRNO    1
 
-/* 用于统计MEMP的使用状况 */
-#define MEMP_STATS                      1
-#define LWIP_STATS_DISPLAY              1 // 使用MEMP_STATS_DISPLAY(i)来打印  MEM_STATS_DISPLAY() 打印MEM使用情况
-#define SYS_STATS_COM                   1 // ZWX 添加的用于统计邮箱使用情况  STATS_DISP_COM()  用于打印
-
-/**
- * MEMP_DEBUG: Enable debugging in memp.c.
- */
-#define MEM_DEBUG                       LWIP_DBG_ON  /* 可以把MEM debug 打开，调试 */
-#define MEMP_DEBUG                      LWIP_DBG_ON  /* 可以把MEMP debug 打开，调试 */
-#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_SERIOUS  /* 这个调试等级打开到 serious  */
 
 /*
    --------------------------------------
@@ -260,7 +249,7 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 #define TCPIP_THREAD_STACKSIZE          1000
 
 #define TCPIP_MBOX_SIZE                 128  /* mbox: 所有的socket bind listen input 都会通过这个mbox, 传给tcpip_thread 待处理 ， 一个邮箱4个byte, 256byte */
-#define DEFAULT_UDP_RECVMBOX_SIZE       24  /*  */
+#define DEFAULT_UDP_RECVMBOX_SIZE       24   /*  */
 #define DEFAULT_TCP_RECVMBOX_SIZE       23
 #define DEFAULT_ACCEPTMBOX_SIZE         22
 
@@ -268,6 +257,23 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 #define TCPIP_THREAD_PRIO               (configMAX_PRIORITIES - 4)
 #define LWIP_COMPAT_MUTEX               1
 
+
+/*********************    LWIP 调试相关   ******************************/
+
+
+/* 用于统计MEMP的使用状况 */
+#define MEMP_STATS                      1
+#define LWIP_STATS_DISPLAY              1 // 使用MEMP_STATS_DISPLAY(i)来打印  MEM_STATS_DISPLAY() 打印MEM使用情况
+#define SYS_STATS_COM                   1 // ZWX 添加的用于统计邮箱使用情况  STATS_DISP_COM()  用于打印
+
+/**
+ * MEMP_DEBUG: Enable debugging in memp.c.
+ */
+#define MEM_DEBUG                       LWIP_DBG_ON  /* 可以把MEM debug 打开，调试 */
+#define MEMP_DEBUG                      LWIP_DBG_ON  /* 可以把MEMP debug 打开，调试 */
+#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_ALL  /* 这个调试等级打开到 serious  */
+
+#define TCP_QLEN_DEBUG				    LWIP_DBG_OFF   /*  调试lwip queue len */
 
 
 #endif /* __LWIPOPTS_H__ */

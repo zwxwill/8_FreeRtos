@@ -18,6 +18,9 @@
 #include "test_mqtt.h"
 #include "test_rs485.h"
 #include "test_task.h"
+#include "test_elog.h"
+#include "test_eflash.h"
+#include "test_rawtcpclient.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -78,8 +81,29 @@ void vTaskTest(void *pvParameters)
 //                9,                     /* priority */
 //                NULL);                 /* handle  */
 
-    xTaskCreate(vTaskTestMqtt,         /* function  */
-                "vTaskTestMqtt",       /* name    */
+//    xTaskCreate(vTaskTestMqtt,         /* function  */
+//                "vTaskTestMqtt",       /* name    */
+//                1024,                  /* stack size, unit: 4 byte */
+//                NULL,                  /* task param */
+//                9,                     /* priority */
+//                NULL);                 /* handle  */
+
+//    xTaskCreate(vTaskTestElog,         /* function  */
+//                "vTaskTestElog",       /* name    */
+//                1024,                  /* stack size, unit: 4 byte */
+//                NULL,                  /* task param */
+//                9,                     /* priority */
+//                NULL);                 /* handle  */
+				
+//    xTaskCreate(vTaskTestEFlash,         /* function  */
+//                "vTaskTestEFlash",       /* name    */
+//                1024,                  /* stack size, unit: 4 byte */
+//                NULL,                  /* task param */
+//                9,                     /* priority */
+//                NULL);                 /* handle  */
+
+    xTaskCreate(vTaskTestRawTcpClient,  /* function  */
+                "vTaskTestRawTcpClient",/* name    */
                 1024,                  /* stack size, unit: 4 byte */
                 NULL,                  /* task param */
                 9,                     /* priority */

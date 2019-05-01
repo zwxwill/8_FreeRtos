@@ -320,7 +320,7 @@ void bsp_FlashRead(uint32_t sector_id, uint8_t *pData, uint32_t length)
     uint32_t addr = 0;
 
     /* 如果读取的数据长度为0或者超出串行Flash地址空间，则直接返回 */
-    if((sector_id > SECTOR_NUM) ||(pData == (uint8_t *)0))
+    if((sector_id > SPI_SECTOR_NUM) ||(pData == (uint8_t *)0))
     {
         return;
     }
@@ -348,7 +348,7 @@ int bsp_ClearSectors(int iSecorId, int length)
     int i = 0;
     int iSectorNum = 0;
 
-    if((iSecorId > SECTOR_NUM) || (length < 0))
+    if((iSecorId > SPI_SECTOR_NUM) || (length < 0))
     {
         return FLASH_ERASE_ERROR;
     }
@@ -405,7 +405,7 @@ int bsp_FlashWrite(int sector_id, uint8_t *blob, int length)
     uint32_t addr;
     uint32_t i, j;
 
-    if((sector_id >= SECTOR_NUM) || (blob == (uint8_t *)0) || (length < 0))
+    if((sector_id >= SPI_SECTOR_NUM) || (blob == (uint8_t *)0) || (length < 0))
     {
         return FLASH_WRITE_ERROR;
     }

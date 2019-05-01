@@ -39,8 +39,6 @@ void vTaskLED(void *pvParameters)
 {
     while(1)
     {
-
-		
         bsp_LedToggle(1);
         vTaskDelay(4000);
     }
