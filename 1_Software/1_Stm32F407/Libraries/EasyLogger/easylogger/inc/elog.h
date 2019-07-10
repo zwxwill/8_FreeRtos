@@ -191,6 +191,13 @@ void elog_hexdump(const char *name, uint8_t width, uint8_t *buf, uint16_t size);
 #define elog_d(tag, ...)     elog_debug(tag, __VA_ARGS__)
 #define elog_v(tag, ...)     elog_verbose(tag, __VA_ARGS__)
 
+#define LOG_E(...)                           elog_e(LOG_TAG, __VA_ARGS__)
+#define LOG_W(...)                           elog_w(LOG_TAG, __VA_ARGS__)
+#define LOG_I(...)                           elog_i(LOG_TAG, __VA_ARGS__)
+#define LOG_D(...)                           elog_d(LOG_TAG, __VA_ARGS__)
+#define LOG_RAW(...)                         elog_raw(__VA_ARGS__)
+#define LOG_HEX(name, width, buf, size)      elog_hex(name, width, buf, size)
+
 /**
  * log API short definition
  * NOTE: The `LOG_TAG` and `LOG_LVL` must defined before including the <elog.h> when you want to use log_x API.

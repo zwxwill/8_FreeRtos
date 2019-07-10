@@ -5,7 +5,6 @@
 #include <stdarg.h>
 #include <MQTTPacket.h>
 
-
 #ifdef MQTT_USING_TLS
 #include <tls_client.h>
 #endif
@@ -23,6 +22,10 @@
 #ifdef MQTT_USING_TLS
 #define MQTT_TLS_READ_BUFFER    4096
 #endif
+
+/* POSIX layer and C standard library */
+#define RT_USING_POSIX
+
 
 
 enum QoS { QOS0, QOS1, QOS2 };
@@ -76,12 +79,8 @@ struct MQTTClient
     void (*defaultMessageHandler)(MQTTClient *, MessageData *);
 
     /* publish interface */
-#if defined(RT_USING_POSIX) && (defined(RT_USING_DFS_NET) || defined(SAL_USING_POSIX))
-    int pub_pipe[2];
-#else
     int pub_sock;
     int pub_port;
-#endif /* RT_USING_POSIX && (RT_USING_DFS_NET || SAL_USING_POSIX) */
 
 #ifdef MQTT_USING_TLS
     /* mbedtls session struct*/

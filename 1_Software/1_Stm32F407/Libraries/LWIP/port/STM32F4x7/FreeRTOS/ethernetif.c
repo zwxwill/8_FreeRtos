@@ -297,54 +297,55 @@ static struct pbuf * low_level_input(struct netif *netif)
     /* get received frame */
     frame = ETH_Get_Received_Frame_interrupt();
 	
-	if((frame.descriptor->Status & ETH_DMARxDesc_ES) == (uint32_t)RESET)
+    if( ((frame.descriptor->Status & ETH_DMARxDesc_ES) == (uint32_t)SET) &&
+ 	    ((frame.descriptor->Status & ETH_DMARxDesc_LS) == (uint32_t)SET) )
 	{
-	
+		printf("low_level_input : frame error!!! \r\n");
 	}
 	else
 	{
-		printf("frame error\r\n");
+		/* Obtain the size of the packet and put it into the "len" variable. */
+		len = frame.length;
+		buffer = (u8 *)frame.buffer;
+
+		if(len > 0)
+		{
+			/* We allocate a pbuf chain of pbufs from the Lwip buffer pool */
+			p = pbuf_alloc(PBUF_RAW, len, PBUF_POOL);
+		}
+
+		if(p != NULL)
+		{
+			DMARxDesc = frame.descriptor;
+			bufferoffset = 0;
+			for(q = p; q != NULL; q = q->next)
+			{
+				byteslefttocopy = q->len;
+				payloadoffset = 0;
+
+				/* Check if the length of bytes to copy in current pbuf is bigger than Rx buffer size*/
+				while((byteslefttocopy + bufferoffset) > ETH_RX_BUF_SIZE)
+				{
+					/* Copy data to pbuf*/
+					memcpy((u8_t*)((u8_t*)q->payload + payloadoffset), (u8_t*)((u8_t*)buffer + bufferoffset), (ETH_RX_BUF_SIZE - bufferoffset));
+
+					/* Point to next descriptor */
+					DMARxDesc = (ETH_DMADESCTypeDef *)(DMARxDesc->Buffer2NextDescAddr);
+					buffer = (unsigned char *)(DMARxDesc->Buffer1Addr);
+
+					byteslefttocopy = byteslefttocopy - (ETH_RX_BUF_SIZE - bufferoffset);
+					payloadoffset = payloadoffset + (ETH_RX_BUF_SIZE - bufferoffset);
+					bufferoffset = 0;
+				}
+
+				/* Copy remaining data in pbuf */
+				memcpy((u8_t*)((u8_t*)q->payload + payloadoffset), (u8_t*)((u8_t*)buffer + bufferoffset), byteslefttocopy);
+				bufferoffset = bufferoffset + byteslefttocopy;
+			}
+		}	
 	}
 
-    /* Obtain the size of the packet and put it into the "len" variable. */
-    len = frame.length;
-    buffer = (u8 *)frame.buffer;
 
-    if(len > 0)
-    {
-        /* We allocate a pbuf chain of pbufs from the Lwip buffer pool */
-        p = pbuf_alloc(PBUF_RAW, len, PBUF_POOL);
-    }
-
-    if(p != NULL)
-    {
-        DMARxDesc = frame.descriptor;
-        bufferoffset = 0;
-        for(q = p; q != NULL; q = q->next)
-        {
-            byteslefttocopy = q->len;
-            payloadoffset = 0;
-
-            /* Check if the length of bytes to copy in current pbuf is bigger than Rx buffer size*/
-            while((byteslefttocopy + bufferoffset) > ETH_RX_BUF_SIZE)
-            {
-                /* Copy data to pbuf*/
-                memcpy((u8_t*)((u8_t*)q->payload + payloadoffset), (u8_t*)((u8_t*)buffer + bufferoffset), (ETH_RX_BUF_SIZE - bufferoffset));
-
-                /* Point to next descriptor */
-                DMARxDesc = (ETH_DMADESCTypeDef *)(DMARxDesc->Buffer2NextDescAddr);
-                buffer = (unsigned char *)(DMARxDesc->Buffer1Addr);
-
-                byteslefttocopy = byteslefttocopy - (ETH_RX_BUF_SIZE - bufferoffset);
-                payloadoffset = payloadoffset + (ETH_RX_BUF_SIZE - bufferoffset);
-                bufferoffset = 0;
-            }
-
-            /* Copy remaining data in pbuf */
-            memcpy((u8_t*)((u8_t*)q->payload + payloadoffset), (u8_t*)((u8_t*)buffer + bufferoffset), byteslefttocopy);
-            bufferoffset = bufferoffset + byteslefttocopy;
-        }
-    }
 
     /* Release descriptors to DMA */
     DMARxDesc = frame.descriptor;

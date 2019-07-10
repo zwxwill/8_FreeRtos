@@ -33,6 +33,7 @@
 
 #include "srv_netconf.h"
 #include "srv_printf.h"
+#include "srv_elog.h"
 
 #include <stdio.h>
 
@@ -68,6 +69,7 @@ static void App_HardWareInit(void)
 
 	Srv_RamPrintInit(); /* ram打印调试 放在SRAM初始化之后 */
     Srv_LwIPInit();     /* 以太网初始化 */
+	Srv_ElogInit(); 
 }
 
 

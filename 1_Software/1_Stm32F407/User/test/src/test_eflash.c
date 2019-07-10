@@ -27,8 +27,8 @@
 /* Private variables ---------------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
-static void elog_user_assert_hook(const char* ex, const char* func, size_t line) {
-
+static void elog_user_assert_hook(const char* ex, const char* func, size_t line) 
+{
 #ifdef ELOG_ASYNC_OUTPUT_ENABLE
     /* disable async output */
     elog_async_enabled(false);
@@ -74,8 +74,6 @@ void TestEFlashInit(void)
 	elog_flash_init();
     /* start EasyLogger */
     elog_start();
-	
-
 }
 
 

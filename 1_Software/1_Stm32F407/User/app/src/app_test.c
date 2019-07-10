@@ -21,6 +21,7 @@
 #include "test_elog.h"
 #include "test_eflash.h"
 #include "test_rawtcpclient.h"
+#include "test_paho-mqtt.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -45,12 +46,12 @@ void vTaskTest(void *pvParameters)
 {
 //	Test_StackOverFlow();
 	
-//    xTaskCreate(vTaskTestTcpClient,    /* function  */
-//                "vTaskTestTcpClient",  /* name    */
-//                1024,                  /* stack size, unit: 4 byte */
-//                NULL,                  /* task param */
-//                9,                     /* priority */
-//                NULL);                 /* handle  */
+    xTaskCreate(vTaskTestTcpClient,    /* function  */
+                "vTaskTestTcpClient",  /* name    */
+                1024,                  /* stack size, unit: 4 byte */
+                NULL,                  /* task param */
+                9,                     /* priority */
+                NULL);                 /* handle  */
 	
 //    xTaskCreate(vTaskTestTcpServer,    /* function  */
 //                "vTaskTestTcpServer",  /* name    */
@@ -88,6 +89,13 @@ void vTaskTest(void *pvParameters)
 //                9,                     /* priority */
 //                NULL);                 /* handle  */
 
+//    xTaskCreate(Test_PahoMqtt,         /* function  */
+//                "Test_PahoMqtt",       /* name    */
+//                1024,                  /* stack size, unit: 4 byte */
+//                NULL,                  /* task param */
+//                9,                     /* priority */
+//                NULL);                 /* handle  */			
+
 //    xTaskCreate(vTaskTestElog,         /* function  */
 //                "vTaskTestElog",       /* name    */
 //                1024,                  /* stack size, unit: 4 byte */
@@ -102,12 +110,12 @@ void vTaskTest(void *pvParameters)
 //                9,                     /* priority */
 //                NULL);                 /* handle  */
 
-    xTaskCreate(vTaskTestRawTcpClient,  /* function  */
-                "vTaskTestRawTcpClient",/* name    */
-                1024,                  /* stack size, unit: 4 byte */
-                NULL,                  /* task param */
-                9,                     /* priority */
-                NULL);                 /* handle  */
+//    xTaskCreate(vTaskTestRawTcpClient,  /* function  */
+//                "vTaskTestRawTcpClient",/* name    */
+//                1024,                  /* stack size, unit: 4 byte */
+//                NULL,                  /* task param */
+//                9,                     /* priority */
+//                NULL);                 /* handle  */
 
 //    xTaskCreate(vTaskTestRs485,         /* function  */
 //                "vTaskTestRs485",       /* name    */

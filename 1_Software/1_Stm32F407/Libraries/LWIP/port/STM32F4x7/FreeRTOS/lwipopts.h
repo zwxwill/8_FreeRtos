@@ -221,7 +221,11 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
  */
 #define LWIP_SOCKET                     1
 
-
+/**
+ * LWIP_DNS==1: Turn on DNS module. UDP must be available for DNS
+ * transport.
+ */
+#define LWIP_DNS                        1
 
 /**
  * LWIP_SO_RCVTIMEO==1: Enable receive timeout for sockets/netconns and

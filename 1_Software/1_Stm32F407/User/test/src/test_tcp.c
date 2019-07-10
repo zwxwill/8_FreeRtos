@@ -26,8 +26,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-#define TEST_DATA_LEN				128U
-static u8 SocTCPRecv[TEST_DATA_LEN] = {0};
+#define TEST_DATA_LEN				65580U
+//static u8 SocTCPRecv[TEST_DATA_LEN] __attribute__((at(0x68000000))) = {0};
+static u8 *SocTCPRecv;
 static u8 SocTCPClientSend[] = "Hello, This is a Socke Tcp Client Test ";
 static u8 SocTCPServerSend[] = "Hello, This is a Socke Tcp Client Test ";
 static u8 *pSocTcpClientBuf; /* 测试客户端发送大量数据的情况 */
@@ -45,8 +46,9 @@ static int g_ConState = 0;
   */
 void vTaskTestTcpClient(void *pvParameters)
 {
-	test_tcp_client();
-	//test_tcp_client_nob();
+	//test_tcp_client();
+	SocTCPRecv = pvMyPortMalloc(TEST_DATA_LEN, SRAM_EX);
+	test_tcp_client_nob();
 	
     while(1)
     {
@@ -74,13 +76,13 @@ void vTaskTestTcpServer(void *pvParameters)
   * @param  None
   * @retval None
   */
-static void test_socketNonBlock(int sock)
+static void test_socketNonBlock(int *sock)
 {
     int flags;
 
-    flags = fcntl(sock, F_GETFL, 0);
+    flags = fcntl(*sock, F_GETFL, 0);
 	flags |= O_NONBLOCK;
-    fcntl(sock, F_SETFL, flags);
+    fcntl(*sock, F_SETFL, flags);
 }
 
 /**
@@ -88,14 +90,16 @@ static void test_socketNonBlock(int sock)
   * @param  None
   * @retval None
   */
-static void test_socketBlock(int sock)
+static void test_socketBlock(int *sock)
 {
     int flags;
 
-    flags = fcntl(sock, F_GETFL, 0);
+    flags = fcntl(*sock, F_GETFL, 0);
 	flags &= (~O_NONBLOCK);
-    fcntl(sock, F_SETFL, flags);	
+    fcntl(*sock, F_SETFL, flags);	
 }
+
+
 
 int select_nonb_again(int sockfd, const struct sockaddr *addr, socklen_t addrlen, int blockMs)
 {
@@ -247,6 +251,7 @@ void test_getsockname(int sock)
   * @param  None
   * @retval None
   */
+int temp = 0;
 void test_tcp_client_nob(void)
 {
 	int i = 0;
@@ -257,6 +262,7 @@ void test_tcp_client_nob(void)
 	int sendn = 0;
 	int flags = 0;
 	int retry = 0;
+
 	
 	while(1)
 	{
@@ -271,6 +277,8 @@ void test_tcp_client_nob(void)
 		{
 			printf("Tcp Client : socket ok\r\n");
 		}
+		
+		test_socketNonBlock(&sockfd);
 
 		/* 设置要连接的服务器端的ip和port信息 */
 		servaddr.sin_addr.s_addr = inet_addr("192.168.1.133");
@@ -278,11 +286,10 @@ void test_tcp_client_nob(void)
 		servaddr.sin_len = sizeof(servaddr);
 		servaddr.sin_port = htons(8200);	
 		
-
 		status = connect_nonb(sockfd, (struct sockaddr *)&servaddr, sizeof(struct sockaddr), 0);  /* 最后一个参数 超时时间 ms */
 		if(status == FALSE)
 		{
-			for(retry=0; retry<3; retry++)
+			for(retry=0; retry<500; retry++)
 			{
 				if(g_ConState == SOCKET_CONNECTING)
 				{
@@ -306,12 +313,33 @@ void test_tcp_client_nob(void)
 
 		while(1)
 		{
+			while(1)
+			{
+				if(temp == 0)
+				{
+					vTaskDelay(500);
+				}
+				else
+				{
+					vTaskDelay(5);
+					break;
+				}
+			}
+			
+			
 			recvn = recv(sockfd, SocTCPRecv, TEST_DATA_LEN, 0);
 			if(recvn == -1)
 			{
-				printf("TCP Client : recv Error State = %d\r\n", recvn);
-				close(sockfd);
-				break;					
+				switch(errno)
+				{
+					case EWOULDBLOCK:
+						printf("tcp block\r\n");			
+						break;
+					default:
+						printf("tcp recv error\r\n");
+						close(sockfd);
+						break;
+				}	
 			}
 			else if(recvn == 0)
 			{

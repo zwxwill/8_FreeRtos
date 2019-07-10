@@ -96,7 +96,7 @@ extern volatile uint32_t ulHighFrequencyTimerTicks;
 #define configTICK_RATE_HZ                      ( ( portTickType ) 1000 )  /* 心跳 进行任务调度 */
 #define configMAX_PRIORITIES                    ( 25 )   /* 任务最大优先级 */
 #define configMINIMAL_STACK_SIZE                ( ( unsigned short ) 128 )
-#define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 60 * 1024 ) ) /* 60K */
+#define configTOTAL_HEAP_SIZE                   ( ( size_t ) (70  * 1024 ) ) /* 60K */
 #define configMAX_TASK_NAME_LEN                 ( 16 )
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1
